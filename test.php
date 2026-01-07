@@ -4,6 +4,14 @@
 202 Accepted - Request accepted for processing
 204 No Content - Successful but no content to return
 
+
+git status
+git add .
+git commit -m "Updated routes files"
+ git push
+git push -u origin main
+
+
 // Client Errors
 400 Bad Request - Invalid request syntax/parameters ✅ Use for: invalid input
 401 Unauthorized - Authentication required ✅ Use for: missing/invalid token
@@ -24,14 +32,21 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 
-            "id"=>$datum['id'],
-            "setting_type"=>$datum['setting_type'],
-            "name"=>$datum['name'],
-            "translations"=>$datum['translations'],
-            "status"=>$datum['status'],
-            "created_at"=>$datum['created_at'],
-            "updated_at"=>$datum['updated_at'],
 
 
 
-            $serialized = serialize($data);
+
+function response($statusCode, $status, $message, $data = null) {
+    http_response_code($statusCode);
+    $res = [
+        "status" => $status,
+        "message" => $message
+    ];
+    if ($data !== null) {
+        $res["data"] = $data;
+    }
+    echo json_encode($res);
+    exit;
+}
+
+response(200, true, "Data fetched successfully", $displayData);
