@@ -5,7 +5,7 @@
 // --------------------
 require __DIR__ . '/../middleware/auth.php';
 
-switch ($method) {
+switch ($methods) {
     //--------------------
     //READ FLIGHT AIR LINES
     //--------------------

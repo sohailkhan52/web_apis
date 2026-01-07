@@ -29,7 +29,7 @@ function ValidationPrice($field, $value) {
     }
 }
 
-switch ($method) {
+switch ($methods) {
     // -------------
     // READ bookings
     // -------------

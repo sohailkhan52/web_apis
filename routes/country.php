@@ -4,7 +4,7 @@
 // --------------------
 require __DIR__ . '/../middleware/auth.php';
 
-switch ($method) {
+switch ($methods) {
 
   //---------------------
   // read country

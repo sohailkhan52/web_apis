@@ -4,7 +4,7 @@
 // AUTHENTICATION
 // --------------------
 require __DIR__ . '/../middleware/auth.php';
-if (!$method) {
+if (!$methods) {
   http_response_code(404);
   echo json_encode([
     "status" => false,
