@@ -5,7 +5,9 @@
 // AUTHENTICATION
 // --------------------
 require __DIR__ . '/../middleware/auth.php';
-
+//----------------------------
+//VALIDATION HELPER FUNCTION 
+//----------------------------
 function  validate($field,$value){
     if(!isset($value) || trim($value) === ''){
         http_response_code(422);
@@ -14,15 +16,23 @@ function  validate($field,$value){
 }
 
 switch ($methods) {
+    // -----------------
+    // READ transactions
+    // -----------------
     case 'GET':
+        //data getting through medoo
         $data=$db->select("transactions","*");
+        // checking wether the data is fetched or not   
         if(!$data){
             http_response_code(401);
             echo json(["Status"=>true,"Message"=>"empty data in the table"]);exit;
             }
+        // i ma initializaing  array to store the fetched data in specific order
 
-            $displayData=[];
-            foreach ($data as $datum) {
+        $displayData=[];
+        // using foreach loop for the iteration of data  and store data in totaldata array
+
+        foreach ($data as $datum) {
                $displayData[]=[
                 "id"=>$datum["id"],
                 "user_id"=>$datum["user_id"],
@@ -39,6 +49,8 @@ switch ($methods) {
                 "created_at"=>$datum["created_at"],
                ];
             }
+            // RESPONSE SHOWS HERE OF GETTING HERE
+
             if(!$displayData){
                 http_response_code(400);
                 echo json_encode(["status"=>false,"Message"=>"data managing error"]);exit;
@@ -49,8 +61,11 @@ switch ($methods) {
             }
         
         break;
-    
+    // -------------------
+    // CREATE TRANSACTION
+    //--------------------
     case 'POST':
+        // ALL INPUTS COMMING FORM POST AND WITH SPECIFIC VALIDATION 
         $user_id=trim($_POST["user_id"]);
         validate("user_id",$_POST["user_id"]);
         if(!is_numeric($user_id)){
@@ -88,7 +103,7 @@ switch ($methods) {
             echo json_encode(["status"=>false, "Message"=>"Description too long"]);exit; 
            }
         $attachment=$_POST["attachment"];
-        validate("attachment",$_POST["attachment"])??NULL;
+        $attachment = $_POST["attachment"] ?? null;
         $status=$_POST["status"]??"pending";
         $created_by=ucwords($_POST["created_by"]);
         validate("created_by",$_POST["created_by"]);
@@ -117,9 +132,14 @@ switch ($methods) {
                  echo json_encode(['Status'=>true,"Message"=>"status updated successfully","status"=>$status]);exit;       
              }        
         break;
+    //-------------------
+    //UPDATE TRANSACTIONS
+    //------------------- 
     case 'PUT':
         
+        // DATA COMMING THROUGH UPDATE METHOD  
         $input=json_decode(file_get_contents("php://input"),true);
+        //TAKING  INPUT ID AND CHECKING THE EXISTANCE OF THAT INPUT ID
         $input_id=$input['id'];
         validate("id",$input['id']);
         
@@ -128,7 +148,10 @@ switch ($methods) {
             http_response_code(401);
             echo json_encode(['Status'=>false,"Message"=>"invalid id"]);exit;
         }
+        //I WE WILL ONLY VALIDATE STATUS IN TRANSACTIONS
         $status=strtolower(trim($input['status']));
+
+        
         validate("status",$status);
         if($status!="success"&&$status!="failed"&& $status!="cancelled"&& $status!="pending"){
             http_response_code(401);
@@ -146,7 +169,10 @@ switch ($methods) {
         break;
     
     case 'DELETE':
+        // DELETING BOOKING ID
         $input=json_decode(file_get_contents("php://input"),true);
+        //GETTING ID THEN WITH PROPER VALIDATION CECKING THAT ID IN THE TABLE 
+
         $input_id=$input['id'];
         validate("id",$input_id);
         $input_id_exist=$db->get("transactions","*",['id'=>$input_id]);
@@ -154,7 +180,10 @@ switch ($methods) {
             http_response_code(400);
             echo json_encode(['status'=>false,"Message"=>"invalid id or cancelled status "]);exit;
         }
+        // THE TARGET DATA IS SOFTLY DELETED THROUGHT MEDOO QUERRY 
+
         $result=$db->update("transactions",["status"=>"cancelled"],["id"=>$input_id]);
+        // CHECKING THE RESULT IN RESPONSE 
         if(empty($result)){
             http_response_code(404);
             echo json_encode(['status'=>false,"Message"=>"Error occure while transaction deleting "]);exit;

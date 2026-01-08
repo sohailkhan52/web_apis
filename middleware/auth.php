@@ -57,11 +57,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $methods=$_SERVER['REQUEST_METHOD'];
-if(!$methods){
-    http_response_code(404);
+
+if (!in_array($methods, ['GET', 'POST', 'PUT', 'DELETE'])) {
+    http_response_code(405);
     echo json_encode([
-        "status"=>false,
-        "Message"=>"Method not found"
+        "status" => false,
+        "message" => "Method not allowed"
     ]);
     exit;
 }

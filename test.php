@@ -50,3 +50,18 @@ function response($statusCode, $status, $message, $data = null) {
 }
 
 response(200, true, "Data fetched successfully", $displayData);
+
+
+id
+name
+c1
+c2
+c3
+c4
+c5
+dev_mode
+currency
+status
+order
+default
+note
