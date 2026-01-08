@@ -15,8 +15,26 @@ switch ($methods) {
         if(!isset($data)){
           response(401,false,"data missing in table");
         }
-
         $displayData=[];
+        foreach($data as $datum){
+            $displayData[]=[
+                "id"=>$datum[" "],
+                "name"=>$datum[" "],
+                "c1"=>$datum[" "],
+                "c2"=>$datum[" "],
+                "c3"=>$datum[" "],
+                "c4"=>$datum[" "],
+                "c5"=>$datum[" "],
+                "dev_mode"=>$datum[" "],
+                "currency"=>$datum[" "],
+                "status"=>$datum[" "],
+                "order"=>$datum[" "],
+                "default"=>$datum[" "],
+                "note"=>$datum[" "],
+            ];
+        }
+
+        
         break;
     case 'POST':
         # code...

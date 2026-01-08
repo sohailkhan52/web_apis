@@ -3,6 +3,9 @@
 201 Created - Resource created successfully (POST)
 202 Accepted - Request accepted for processing
 204 No Content - Successful but no content to return
+//password 2wtd4BW0sI1L
+
+
 
 
 git status
@@ -52,16 +55,17 @@ function response($statusCode, $status, $message, $data = null) {
 response(200, true, "Data fetched successfully", $displayData);
 
 
-id
-name
-c1
-c2
-c3
-c4
-c5
-dev_mode
-currency
-status
-order
-default
-note
+
+       "id"=>$datum[" "];
+       "name"=>$datum[" "];
+       "c1"=>$datum[" "];
+       "c2"=>$datum[" "];
+       "c3"=>$datum[" "];
+       "c4"=>$datum[" "];
+       "c5"=>$datum[" "];
+       "dev_mode"=>$datum[" "];
+       "currency"=>$datum[" "];
+       "status"=>$datum[" "];
+       "order"=>$datum[" "];
+       "default"=>$datum[" "];
+       "note"=>$datum[" "];

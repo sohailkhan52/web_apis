@@ -10,7 +10,7 @@ function response404() {
 }
 
 // Include DB, helpers
-require "config/db.php";
+require "Config/db.php";
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = trim($uri, '/');
