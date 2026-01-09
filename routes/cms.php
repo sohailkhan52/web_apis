@@ -63,8 +63,7 @@ switch ($methods) {
     // --------------------
     case 'POST':
         // data coming through post method and properly arranged according to the requirement
-            $status= 1;
-        
+            $status= 1;    
             $page_name=ucwords(trim($_POST['page_name']))?? "";
             $content=$_POST['content']?? "";
             $order=$_POST['order']?? 0;
@@ -145,8 +144,8 @@ switch ($methods) {
         break;
 
 
-            //---------------------
-    // update airport
+    //---------------------
+    // update cms
     //---------------------
     case "PUT":
         

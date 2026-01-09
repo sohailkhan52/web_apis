@@ -150,8 +150,6 @@ switch ($methods) {
         }
         //I WE WILL ONLY VALIDATE STATUS IN TRANSACTIONS
         $status=strtolower(trim($input['status']));
-
-        
         validate("status",$status);
         if($status!="success"&&$status!="failed"&& $status!="cancelled"&& $status!="pending"){
             http_response_code(401);
@@ -169,7 +167,7 @@ switch ($methods) {
         break;
     
     case 'DELETE':
-        // DELETING BOOKING ID
+        // DELETING TRANSACTION ID
         $input=json_decode(file_get_contents("php://input"),true);
         //GETTING ID THEN WITH PROPER VALIDATION CECKING THAT ID IN THE TABLE 
 
@@ -195,8 +193,7 @@ switch ($methods) {
         break;
     
     default:
-        # code...
+        response(404,false,"invalid method");
         break;
-}
-
+    }
 ?>

@@ -56,16 +56,15 @@ response(200, true, "Data fetched successfully", $displayData);
 
 
 
-       "id"=>$datum[" "];
-       "name"=>$datum[" "];
-       "c1"=>$datum[" "];
-       "c2"=>$datum[" "];
-       "c3"=>$datum[" "];
-       "c4"=>$datum[" "];
-       "c5"=>$datum[" "];
-       "dev_mode"=>$datum[" "];
-       "currency"=>$datum[" "];
-       "status"=>$datum[" "];
-       "order"=>$datum[" "];
-       "default"=>$datum[" "];
-       "note"=>$datum[" "];
+       "name"=>$_POST["name"];
+       "c1"=>$_POST[" c1"];
+       "c2"=>$_POST["c2"];
+       "c3"=>$_POST["c3"];
+       "c4"=>$_POST["c4"];
+       "c5"=>$_POST["c5"];
+       "dev_mode"=>$_POST["dev_mode"];
+       "currency"=>$_POST["currency"];
+       "status"=>$_POST["status"];
+       "order"=>$_POST["order"];
+       "default"=>$_POST["default"];
+       "note"=>$_POST["note"];
