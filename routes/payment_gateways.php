@@ -53,9 +53,9 @@ switch ($methods) {
             }
 
         break;
-    // --------------------
+    // -----------------------
     // CREATE PAYMENT GATEWAYS
-    // --------------------
+    // -----------------------
     case 'POST':
         // data coming through post method and properly arranged and validated according to the requirement
         $name=ucwords($_POST["name"]);
@@ -90,7 +90,7 @@ switch ($methods) {
             {response(401,false,"order must be numeric");}
         $default=1;
         $note=ucfirst($_POST["note"])??"";
-
+        // I HAVE CREATED DATA ARRAY TO SHOW THE DATA IN RESULT
         $data=[];
         $data[]=[
            "name"=>$name,
@@ -128,7 +128,7 @@ switch ($methods) {
         if(empty($input_id_exist))
         {response(404,false,"payment id not found");}
 
-        //   i ma using $data array which stores the input fields  which can be used to updated 
+        //i ma using $data array which stores the input fields  which can be used to updated 
         $data=[];
         if(isset($input['name'])){
             $data["name"]=ucwords($input["name"]);

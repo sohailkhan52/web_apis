@@ -10,10 +10,23 @@ switch ($methods) {
     // READ STAY ROOMS
     // --------------------
     case 'GET':
-        $totaldata=$db->select("stays_rooms","*");
-
+        $totaldata = $db->select("stays_rooms",
+         [
+             "[<]stays" => ["stay_id" => "id"]
+         ],
+         [  "stays_rooms.id",
+            "stays_rooms.stay_id",
+            "stays_rooms.room_type_id",
+            "stays_rooms.room_images",
+            "stays_rooms.amenities",
+            "stays_rooms.status",
+            "stays_rooms.room_options",
+            "stays_rooms.created_at",
+            "stays_rooms.updated_at",
+          ]
+        );
         if(!$totaldata){
-            http_response_code();
+            http_response_code(404);
             echo json_encode([
                 "status"=>false,
                 "Message"=>"data is empty"
@@ -62,6 +75,16 @@ switch ($methods) {
     case 'POST':
           // data coming through post method and properly arranged according to the requirement
         $stay_id=(int)$_POST['stay_id'];
+       $stay_id=$db->get("stays","id",["id"=>$stay_id]);
+       if(!$stay_id)
+        {
+            http_response_code(404);
+            echo json_encode([
+                "status"=>false,
+                "Message"=>"invalid stay id"
+            ]);
+            exit;
+        }  
             $room_type_id=(int)$_POST['room_type_id'];
             
             $room_images = $_POST['room_images'] ?? '';
@@ -165,10 +188,7 @@ switch ($methods) {
         }
          //CHECKING ROOM ID EXISTING IN TABLE        
          $room_id_check=$db->get("stays_rooms","*",['id'=>$room_id]);
-        // -------------------------------------------------------------
-        // using if(isset()) to get those input only coming throught post
-        // ------------------------------------------------------------          
-        if(!$room_id_check){
+         if(!$room_id_check){
             http_response_code(404);
             echo json_encode([
                 "status"=>false,
@@ -179,6 +199,9 @@ switch ($methods) {
 
         $roomData=[];
 
+       // -------------------------------------------------------------
+        // using if(isset()) to get those input only coming throught post
+        // ------------------------------------------------------------          
 
         if(isset($input['room_type_id'])&& $input['room_type_id'] > 0 ){
             $roomData["room_type_id"]=(int)$input['room_type_id'];

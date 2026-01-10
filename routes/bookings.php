@@ -36,7 +36,62 @@ switch ($methods) {
     case 'GET':
 
         //data getting through medoo
-        $data=$db->select("bookings","*");
+      $data = $db->select("bookings",
+         [
+             "[<]users" => ["user_id" => "user_id"]
+         ],
+         [  "bookings.id",
+            "bookings.invoice_id",
+            "bookings.booking_date",
+            "bookings.booking_status",
+            "bookings.price_original",
+            "bookings.price_markup",
+            "bookings.agent_earning",
+            "bookings.vat",
+            "bookings.tax",
+            "bookings.gst",
+            "bookings.first_name",
+            "bookings.last_name",
+            "bookings.email",
+            "bookings.address",
+            "bookings.phone_country_code",
+            "bookings.phone",
+            "bookings.country",
+            "bookings.stars",
+            "bookings.adults",
+            "bookings.infants",
+            "bookings.childs",
+            "bookings.child_ages",
+            "bookings.currency_original",
+            "bookings.currency_markup",
+            "bookings.payment_date",
+            "bookings.cancellation_request",
+            "bookings.cancellation_status",
+            "bookings.booking_data",
+            "bookings.payment_status",
+            "bookings.supplier",
+            "bookings.transaction_id",
+            "bookings.user_id",
+            "bookings.user_data",
+            "bookings.guest",
+            "bookings.nationality",
+            "bookings.payment_gateway",
+            "bookings.module_type",
+            "bookings.pnr",
+            "bookings.booking_response",
+            "bookings.error_response",
+            "bookings.cost",
+            "bookings.final_price",
+            "bookings.earning",
+            "bookings.final_earning",
+            "bookings.module",
+            "bookings.updated_at",
+          ]
+        );
+
+
+      
+
 
         // checking weather the data is fetched or not       
         if(empty($data)){
@@ -175,9 +230,9 @@ switch ($methods) {
         $supplier=ucwords(trim($_POST['supplier']))??"";
         $transaction_id=strtoupper(trim($_POST['transaction_id']));
         Validation("transaction_id",$_POST['transaction_id']);
-        $user_id=trim($_POST['user_id']);
-        Validation("user_id",$_POST['user_id']);
-        ValidationInt("user_id",$_POST['user_id']);
+         $user_id=$db->select("users","user_id",["id"=>$auth_id]);
+         if(!$user_id)
+         {$user_id=2;}  
         $user_data=$_POST['user_data']??"";
         $guest=$_POST['guest']??'';
         $nationality=strtoupper(trim($_POST['nationality']));
@@ -492,10 +547,6 @@ switch ($methods) {
         $data["transaction_id"]=strtoupper(trim($input['transaction_id']));
         Validation("transaction_id",$input['transaction_id']);}
 
-        if(isset($input["user_id"])){
-        $data["user_id"]=trim($input['user_id']);
-        Validation("user_id",$input['user_id']);
-        ValidationInt("user_id",$input['user_id']);}
 
         if(isset($input["user_data"])){
         $data["user_data"]=$input['user_data']??"";}

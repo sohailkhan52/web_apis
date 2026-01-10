@@ -43,6 +43,7 @@ use Firebase\JWT\Key;
 // ----------
 try {
     $decoded=JWT::decode($token,new key($jwt_secret,"HS256"));
+    $auth_id=$decoded->id;
 
 } catch (Exception $th) {
     http_response_code(401);

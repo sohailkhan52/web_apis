@@ -12,7 +12,44 @@ switch ($methods) {
 // READ STAYS
 // --------------------
     case 'GET':
-        $staysData = $db->select("stays", "*");
+        $staysData = $db->select("stays",
+         [
+             "[<]users" => ["user_id" => "user_id"]
+         ],
+         [ "stays.id",
+          "stays.status",
+          "stays.user_id",
+          "stays.name",
+          "stays.slug",
+          "stays.featured",
+          "stays.hotel_order",
+          "stays.stars",
+          "stays.rating",
+          "stays.location",
+          "stays.location_coords",
+          "stays.address",
+          "stays.img",
+          "stays.currency",
+          "stays.discount",
+          "stays.refundable",
+          "stays.checkin_time",
+          "stays.checkout_time",
+          "stays.booking_age_requirement",
+          "stays.email",
+          "stays.phone",
+          "stays.website",
+          "stays.meta_title",
+          "stays.meta_keywords",
+          "stays.cancellation_policy",
+          "stays.privacy_policy",
+          "stays.amenity_ids",
+          "stays.translations",
+          "stays.created_at",
+          "stays.updated_at",
+          "stays.desc",
+          "stays.meta_desc",
+          "stays.stay_type",]
+        );
 
         if(!$staysData){
            
@@ -85,7 +122,9 @@ switch ($methods) {
     case 'POST':
         // data coming through post method and properly arranged according to the requirement
         $status = 1;
-        $user_id =  trim($_POST['user_id']) ?? "";
+        $user_id=$db->select("users","user_id",["id"=>$auth_id]);
+         if(!$user_id)
+          {$user_id=2;} 
         $name =ucwords(trim($_POST['name'])) ?? "";
         $slug = strtolower(trim($_POST['slug'])) ?? "";
         $featured =  (int)$_POST['featured'] ?? 1;

@@ -21,7 +21,25 @@ switch ($methods) {
     // -----------------
     case 'GET':
         //data getting through medoo
-        $data=$db->select("transactions","*");
+      $data = $db->select("transactions",
+         [
+             "[<]users" => ["user_id" => "user_id"]
+         ],
+         [   "transactions.id",
+             "transactions.user_id",
+             "transactions.trx_id",
+             "transactions.type",
+             "transactions.date",
+             "transactions.payment_gateway",
+             "transactions.amount",
+             "transactions.currency",
+             "transactions.description",
+             "transactions.attachment",
+             "transactions.status",
+             "transactions.created_by",
+             "transactions.created_at",
+             "transactions.updated_at",]
+     );
         // checking wether the data is fetched or not   
         if(!$data){
             http_response_code(401);
@@ -66,12 +84,9 @@ switch ($methods) {
     //--------------------
     case 'POST':
         // ALL INPUTS COMMING FORM POST AND WITH SPECIFIC VALIDATION 
-        $user_id=trim($_POST["user_id"]);
-        validate("user_id",$_POST["user_id"]);
-        if(!is_numeric($user_id)){
-            http_response_code(404);
-            echo json_encode(['status'=>false,"message"=>"User id should be numeric"]);exit;
-        }
+       $user_id=$db->select("users","user_id",["id"=>$auth_id]);
+       if(!$user_id)
+        {$user_id=2;}  
         
         $trx_id="TRX".date("YmdHis").rand(1000, 9999);
         $type=strtolower(trim($_POST["type"]));

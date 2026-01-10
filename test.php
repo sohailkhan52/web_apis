@@ -11,7 +11,6 @@
 git status
 git add .
 git commit -m "Updated routes files"
- git push
 git push -u origin main
 
 
@@ -53,18 +52,54 @@ function response($statusCode, $status, $message, $data = null) {
 }
 
 response(200, true, "Data fetched successfully", $displayData);
+$data = $db->select("logs_searchs",
+    [
+        "[<]users" => ["logs_searchs.user_id" => "users.id"]
+    ],
+    [
+        "logs_searchs.user_id",
+        "users.first_name",
+        "users.last_name"
+    ]
+);
 
 
 
-       "name"=>$_POST["name"];
-       "c1"=>$_POST[" c1"];
-       "c2"=>$_POST["c2"];
-       "c3"=>$_POST["c3"];
-       "c4"=>$_POST["c4"];
-       "c5"=>$_POST["c5"];
-       "dev_mode"=>$_POST["dev_mode"];
-       "currency"=>$_POST["currency"];
-       "status"=>$_POST["status"];
-       "order"=>$_POST["order"];
-       "default"=>$_POST["default"];
-       "note"=>$_POST["note"];
+      $data = $db->select("stay_rooms",
+         [
+             "[<]stay" => ["stay_id" => "id"]
+         ],
+         [  "stay_rooms.id",
+            "stay_rooms.stay_id",
+            "stay_rooms.room_type_id",
+            "stay_rooms.room_images",
+            "stay_rooms.amenities",
+            "stay_rooms.status",
+            "stay_rooms.room_options",
+            "stay_rooms.created_at",
+            "stay_rooms.updated_at",
+          ]
+        );
+
+Full texts
+id
+stay_id
+room_type_id
+room_images
+amenities
+status
+room_options
+created_at
+updated_at
+      
+,
+
+       
+       "id"=>$_POST["id"];
+       "first_name"=>$_POST["first_name"];
+       "last_name"=>$_POST["last_name"];
+       "user_id"=>$_POST["user_id"];
+       "module"=>$_POST["module"];
+       "request"=>$_POST["request"];
+       "created_at"=>$_POST["created_at"];
+       "ip"=>$_POST["ip"];

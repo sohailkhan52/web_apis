@@ -9,7 +9,20 @@ switch ($methods) {
     // READ credits
     // -------------
     case 'GET':
-       $data=$db->select("credits","*");
+      $data = $db->select("credits",
+         [
+             "[<]users" => ["user_id" => "user_id"]
+         ],
+         [  
+            "credits.id",
+            "credits.user_id",
+            "credits.type",
+            "credits.credits",
+            "credits.currency",
+            "credits.description",
+            "credits.created_at",
+          ]
+        );
        // checking weather the data is fetched or not
        if(!$data){
         http_response_code(401);
@@ -58,9 +71,9 @@ switch ($methods) {
         exit;
     }
 }
-     $user_id=strtolower(trim($_POST['user_id']))??"";
-     validateRequired("user_id", $_POST['user_id']);
-
+       $user_id=$db->select("users","user_id",["id"=>$auth_id]);
+       if(!$user_id)
+        {$user_id=2;}  
      $type=strtolower(trim($_POST['type']))??"credit";
      validateRequired("type", $_POST['type']);
       if($type!=="credit" && $type!=="debit"){
@@ -146,9 +159,6 @@ switch ($methods) {
      }
      $data=[];
 
-     if($input['user_id']){
-     $data['user_id']=strtolower(trim($input['user_id']))??"";
-     validateRequired("user_id", $input['user_id']);}
      if($input['type']){
      $data['type']=strtolower(trim($input['type']))??"credit";
      validateRequired("type", $input['type']);
